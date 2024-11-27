@@ -1,0 +1,137 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFF5E1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: inline;
+}
+
+h1 {
+    width: 100%;
+    background-color: #AF1740;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
+    color: #fff;
+}
+
+.cartas-container {
+    max-height: calc(100vh - 106px); /* Limita la altura a la ventana visible */
+    overflow-y: auto; /* Permite desplazarse si el contenido excede la altura */
+    padding: 20px;
+    padding-right: 340px;
+    position: relative;
+}
+
+.cartas-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.carta {
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.carta-info {
+    width: 200px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.carta-info p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.carta-imagen {
+    width: 200px; /* Ajusta el tamaño de la imagen */
+}
+
+.carta-imagen img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.imagen-pequena:hover {
+    opacity: 0.7;
+}
+
+/* Estilos del modal */
+.modal {
+    display: none;  /* El modal está oculto por defecto */
+    position: fixed;
+    z-index: 1; /* Asegura que el modal esté por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);  /* Fondo oscuro semitransparente */
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+/* Imagen en el modal */
+.imagen-grande {
+    max-width: 500px;
+    max-height: 90vh;
+    margin: auto;
+    display: block;
+}
+
+/* Estilo del botón para cerrar */
+.cerrar {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.cerrar:hover {
+    color: #ccc;
+}
+
+#toggle-filters {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000; /* Asegura que el botón esté por encima de los demás elementos */
+    background-color: #17a2b8;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#toggle-filters:hover {
+    background-color: #117a8b;
+}

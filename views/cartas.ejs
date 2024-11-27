@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartas MyL</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="stylesmenu.css"> <!-- Vincula el archivo CSS -->
+</head>
+<body>
+    <h1>MyL Cartas</h1>
+    <div class="cartas-container">
+        <div class="cartas-list">
+            <% cartas.forEach(carta => { %> <!-- Itera sobre las cartas -->
+                <div class="carta">
+                    <div class="carta-imagen">
+                        <img class="imagen-peque" src="/imageneswebp/<%= carta.edicion.replace(/ /g, "_") %>/<%= carta.nombre %>.webp" alt="<%= carta.nombre %>">
+                    </div>
+                    <div class="carta-info">
+                        <h2><%= carta.nombre %></h2>
+                        <p><strong>Rareza:</strong> <%= carta.rareza %></p>
+                        <p><strong>Edición:</strong> <%= carta.edicion %></p>
+                        <p><strong>Imperio:</strong> <%= carta.imperio ? 'Sí' : 'No' %></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+
+        <!-- Botón para abrir el menú de filtros -->
+        <button id="toggle-filters">Filtros</button>
+    </div>
+
+    <!-- Menú de filtros extraíble -->
+    <div id="filters-menu" class="<%= (nombre || tipo || raza || edicion) ? 'open' : '' %>">
+        <form id="filters-form" action="/cartas" method="GET">
+            <h2>Filtros</h2>
+
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" value="<%= nombre || '' %>">
+
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo">
+                <option value="">Cualquiera</option>
+                <option value="Aliado" <%= tipo === 'Aliado' ? 'selected' : '' %>>Aliado</option>
+                <option value="Tótem" <%= tipo === 'Tótem' ? 'selected' : '' %>>Tótem</option>
+                <option value="Oro" <%= tipo === 'Oro' ? 'selected' : '' %>>Oro</option>
+                <option value="Arma" <%= tipo === 'Arma' ? 'selected' : '' %>>Arma</option>
+                <option value="Talismán" <%= tipo === 'Talismán' ? 'selected' : '' %>>Talismán</option>
+            </select>
+
+            <label for="raza">Raza (Aliados):</label>
+            <select name="raza" id="raza">
+                <option value="">Cualquiera</option>
+                <option value="Guerrero" <%= raza === 'Guerrero' ? 'selected' : '' %>>Guerrero</option>
+                <option value="Bestia" <%= raza === 'Bestia' ? 'selected' : '' %>>Bestia</option>
+                <option value="Caballero" <%= raza === 'Caballero' ? 'selected' : '' %>>Caballero</option>
+                <option value="Dragón" <%= raza === 'Dragón' ? 'selected' : '' %>>Dragón</option>
+                <option value="Sombra" <%= raza === 'Sombra' ? 'selected' : '' %>>Sombra</option>
+                <option value="Héroe" <%= raza === 'Héroe' ? 'selected' : '' %>>Héroe</option>
+                <option value="Faerie" <%= raza === 'Faerie' ? 'selected' : '' %>>Faerie</option>
+                <option value="Eterno" <%= raza === 'Eterno' ? 'selected' : '' %>>Eterno</option>
+                <option value="Sacerdote" <%= raza === 'Sacerdote' ? 'selected' : '' %>>Sacerdote</option>
+            </select>
+
+            <label for="edicion">Edición:</label>
+            <select name="edicion" id="edicion">
+                <% ediciones.forEach(edicion => { %>
+                    <option value="<%= edicion %>" <%= edicion === edicion ? 'selected' : '' %>><%= edicion %></option>
+                <% }); %>
+                <option value="">Cualquiera</option>
+            </select>
+
+            <button type="submit">Aplicar filtros</button>
+        </form>
+    </div>
+
+        <!-- Modal para la imagen en grande -->
+        <div id="modal" class="modal">
+            <img class="imagen-grande" id="imagenGrande" src="" alt="Imagen en grande">
+        </div>
+    
+        <script>
+            // Obtener elementos del modal y los botones de imagen
+            var modal = document.getElementById("modal");
+            var imagenGrande = document.getElementById("imagenGrande");
+            var cerrar = document.getElementById("cerrar");
+    
+            // Función para abrir el modal al hacer clic en una imagen
+            var imagenes = document.querySelectorAll('.imagen-peque');
+            imagenes.forEach(function(imagen) {
+                imagen.onclick = function() {
+                    var imagenSrc = imagen.getAttribute('src');  // Obtener el src de la imagen grande
+                    console.log(imagenSrc)
+                    imagenGrande.src = imagenSrc;  // Cambiar el src de la imagen en el modal
+                    modal.style.display = "block";  // Mostrar el modal
+                }
+            });
+    
+            // Cerrar el modal si se hace clic fuera de la imagen
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+                if (event.target == cartasContainer) {
+                    filtersMenu.classList.remove("open");
+                }
+            }
+            // Script para mostrar y ocultar el menú de filtros
+            document.getElementById('toggle-filters').addEventListener('click', function() {
+                document.getElementById('filters-menu').classList.toggle('open');
+            });
+        </script>
+</body>
+</html>
