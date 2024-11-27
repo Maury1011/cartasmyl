@@ -1,45 +1,33 @@
+import dotenv from 'dotenv';
+dotenv.config(); // Cargar las variables de entorno desde el archivo .env
 
-import { Sequelize, DataTypes} from 'sequelize'
-import { dbConfig } from './db.config.js'
-import initCartasModel from '../models/cartas.model.js';
+import { Sequelize, DataTypes } from 'sequelize';
+import initCartasModel from '../models/cartas.model.js'; // Ajusta la ruta de tu modelo según corresponda
 
-const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
-    host: dbConfig.HOST,
-    dialect: dbConfig.DIALECT,
-    logging: false
+const sequelize = new Sequelize(process.env.PGNAME, process.env.PGUSER, process.env.PGPASSWORD, {
+    host: process.env.PGHOST,
+    dialect: 'postgres', // Usamos PostgreSQL
+    port: process.env.PGPORT, // Usamos el puerto de la base de datos
+    logging: false // Desactivar el logging (opcional)
 });
 
-const db = {}
+const db = {};
 
-db.Carta = initCartasModel(sequelize, DataTypes)
+db.Carta = initCartasModel(sequelize, DataTypes);
 
-db.sequelize = sequelize
-db.Sequelize = Sequelize
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
 
 sequelize
     .authenticate()
     .then(() => {
-    console.log('Conexión a la base de datos establecida exitosamente')
+        console.log('Conexión a la base de datos establecida exitosamente');
     })
     .catch((err) => {
-    console.error('No se pudo conectar a la base de datos', err)
-    })
-
-//db.sequelize.sync({ force: true })
-db.sequelize.sync({ alter: true })
-    .then(() => {
-        console.log('tablas creadas con exito')
-    })
-    .catch((error) => {
-    console.error('error al sincronizar la base de datos', error)
-    }
-)
+        console.error('No se pudo conectar a la base de datos', err);
+    });
 
 export default db;
-
-
-
-
 
 
 

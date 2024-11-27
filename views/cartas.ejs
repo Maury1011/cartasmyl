@@ -14,7 +14,7 @@
             <% cartas.forEach(carta => { %> <!-- Itera sobre las cartas -->
                 <div class="carta">
                     <div class="carta-imagen">
-                        <img class="imagen-peque" src="/imageneswebp/<%= carta.edicion.replace(/ /g, "_") %>/<%= carta.nombre %>.webp" alt="<%= carta.nombre %>">
+                        <img class="imagen-peque" src="/imageneswebp/<%= carta.edicion.replace(/ /g, "_") %>/<%= carta.nombre %>.webp" abc="<%= carta.imagen %>" alt="<%= carta.nombre %>">
                     </div>
                     <div class="carta-info">
                         <h2><%= carta.nombre %></h2>
@@ -89,7 +89,7 @@
             var imagenes = document.querySelectorAll('.imagen-peque');
             imagenes.forEach(function(imagen) {
                 imagen.onclick = function() {
-                    var imagenSrc = imagen.getAttribute('src');  // Obtener el src de la imagen grande
+                    var imagenSrc = imagen.getAttribute('abc');  // Obtener el src de la imagen grande
                     console.log(imagenSrc)
                     imagenGrande.src = imagenSrc;  // Cambiar el src de la imagen en el modal
                     modal.style.display = "block";  // Mostrar el modal
