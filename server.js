@@ -3,7 +3,7 @@ import db from './bd_config/db.js'; // Asegúrate de que la ruta a db.js sea cor
 const { Carta } = db;
 
 const app = express();
-const port = process.env.PGPORT || 3000; // Usar el puerto de Railway o 3000 por defecto
+const port = process.env.PORT || 3000; // Usar el puerto de Railway o 3000 por defecto
 //otra vez
 // Configura el directorio público para archivos estáticos
 app.use(express.static('public'));
@@ -12,6 +12,10 @@ app.use('/imageneswebp', express.static('imagenes webp'));
 // Configura EJS como motor de plantillas
 app.set('view engine', 'ejs');
 app.set('views', './views');
+
+app.get('/', (req, res) => {
+    res.redirect('/cartas');  // Redirige a /cartas si acceden a la raíz
+});
 
 // Ruta para obtener las cartas y renderizar la vista
 app.get('/cartas', async (req, res) => {
