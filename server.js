@@ -4,7 +4,7 @@ const { Carta } = db;
 
 const app = express();
 const port = process.env.PORT || 3000; // Usar el puerto de Railway o 3000 por defecto
-
+//otra vez
 // Configura el directorio público para archivos estáticos
 app.use(express.static('public'));
 app.use('/imageneswebp', express.static('imagenes webp'));
