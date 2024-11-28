@@ -1,5 +1,5 @@
 import express from 'express';
-import db from './bd_config/db.js'; // Asegúrate de que la ruta a db.js sea correcta
+import db from './bd_config/db.js'; 
 const { Carta } = db;
 
 const app = express();
