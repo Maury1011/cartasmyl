@@ -6,9 +6,9 @@ import initCartasModel from '../models/cartas.model.js'; // Ajusta la ruta de tu
 
 const sequelize = new Sequelize(process.env.PGNAME, process.env.PGUSER, process.env.PGPASSWORD, {
     host: process.env.PGHOST,
-    dialect: 'postgres', // Usamos PostgreSQL
-    port: process.env.PGPORT, // Usamos el puerto de la base de datos
-    logging: false // Desactivar el logging (opcional)
+    dialect: 'postgres', 
+    port: process.env.PGPORT, 
+    //logging: false
 });
 
 const db = {};
