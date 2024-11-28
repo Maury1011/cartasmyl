@@ -8,7 +8,7 @@ const sequelize = new Sequelize(process.env.PGNAME, process.env.PGUSER, process.
     host: process.env.PGHOST,
     dialect: 'postgres', 
     port: process.env.PGPORT, 
-    //logging: false
+    logging: console.log,
 });
 
 const db = {};
@@ -24,7 +24,7 @@ sequelize
         console.log('Conexión a la base de datos establecida exitosamente');
     })
     .catch((err) => {
-        console.error('No se pudo conectar a la base de datos', err);
+        console.error('No se pudo conectar a la base de datos', err.message);
     });
 
 export default db;
