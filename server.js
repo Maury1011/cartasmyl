@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
-    res.redirect('/cartas');  
+    res.send('¡Aplicación funcionando correctamente en Railway!'); 
 });
 
 app.use((req, res, next) => {
@@ -41,8 +41,9 @@ app.get('/cartas', async (req, res) => {
         const cartas = await Carta.findAll({
             where: whereConditions,
             order: [['id', 'ASC']],
+            limit: 10
         });
-        console.log(cartas);
+
         if (!cartas.length) {
             res.status(404).send('No se encontraron cartas.');
             return;
