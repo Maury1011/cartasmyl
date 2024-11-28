@@ -3,18 +3,29 @@ import db from './bd_config/db.js';
 const { Carta } = db;
 
 const app = express();
-const port = process.env.PORT || 3000; // Usar el puerto de Railway o 3000 por defecto
-//otra vez
-// Configura el directorio público para archivos estáticos
+const port = process.env.PORT || 8080;
+
 app.use(express.static('public'));
 app.use('/imageneswebp', express.static('imagenes webp'));
 
-// Configura EJS como motor de plantillas
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.get('/', (req, res) => {
-    res.redirect('/cartas');  // Redirige a /cartas si acceden a la raíz
+    res.redirect('/cartas');  
+});
+
+app.use((req, res, next) => {
+    console.log(`Solicitud: ${req.method} ${req.url}`);
+    next();
+});
+
+process.on('uncaughtException', (err) => {
+    console.error('Error no capturado:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('Promesa rechazada no manejada:', promise, 'razón:', reason);
 });
 
 // Ruta para obtener las cartas y renderizar la vista
@@ -31,23 +42,25 @@ app.get('/cartas', async (req, res) => {
             where: whereConditions,
             order: [['id', 'ASC']],
         });
+        console.log(cartas);
+        if (!cartas.length) {
+            res.status(404).send('No se encontraron cartas.');
+            return;
+        }
 
         const ediciones = await Carta.findAll({
             attributes: [[db.Sequelize.fn('DISTINCT', db.Sequelize.col('edicion')), 'edicion']],
             order: [['edicion', 'ASC']],
         });
 
-        res.render('cartas', {
-            cartas,
+        res.render('cartas', {cartas, 
             ediciones: ediciones.map(e => e.edicion),
-            nombre,
-            tipo,
-            raza,
-            edicion
+            nombre, tipo, raza, edicion
         });
     } catch (error) {
         console.error('Error al obtener las cartas:', error);
         res.status(500).json({ error: 'Error al obtener las cartas' });
+        res.status(500).send('Error interno en el servidor');
     }
 });
 
@@ -59,7 +72,7 @@ async function startServer() {
         await db.sequelize.sync(); // Sincroniza la base de datos
         console.log('Tablas creadas con éxito');
         app.listen(port, () => {
-            console.log(`Servidor corriendo en http://localhost:${port}`);
+            console.log(`Servidor corriendo en https://cartasmyl-production.up.railway.app/${port}`);
         });
     } catch (error) {
         console.error('No se pudo conectar a la base de datos:', error);
